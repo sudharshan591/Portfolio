@@ -1,0 +1,1762 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sudharshan — Software Developer</title>
+    <meta
+      name="description"
+      content="Sudharshan, software developer with 2+ years of experience"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "system-ui"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
+            colors: {
+              dark: {
+                900: "#0a0a0f",
+                800: "#12121a",
+                700: "#1a1a2e",
+                600: "#22223a",
+              },
+              neon: {
+                blue: "#00d4ff",
+                purple: "#a855f7",
+                pink: "#ec4899",
+                green: "#22d3ee",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      html {
+        font-family: Inter, system-ui, sans-serif;
+        scroll-behavior: smooth;
+      }
+      body {
+        background: #0a0a0f;
+      }
+
+      .mesh-bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(
+            ellipse 80% 60% at 20% 40%,
+            rgba(168, 85, 247, 0.12) 0%,
+            transparent 70%
+          ),
+          radial-gradient(
+            ellipse 60% 80% at 80% 20%,
+            rgba(0, 212, 255, 0.08) 0%,
+            transparent 70%
+          ),
+          radial-gradient(
+            ellipse 50% 50% at 60% 80%,
+            rgba(236, 72, 153, 0.08) 0%,
+            transparent 70%
+          );
+      }
+      .grid-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.03;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+        background-size: 60px 60px;
+      }
+      .glass {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .glass-strong {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .glow-border {
+        position: relative;
+        transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+      }
+      .glow-border::before {
+        content: "";
+        position: absolute;
+        inset: -1px;
+        border-radius: inherit;
+        padding: 1px;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 212, 255, 0.3),
+          rgba(168, 85, 247, 0.3),
+          rgba(236, 72, 153, 0.3)
+        );
+        -webkit-mask:
+          linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        mask:
+          linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 0.4s;
+        pointer-events: none;
+      }
+      .glow-border:hover::before {
+        opacity: 1;
+      }
+      .glow-border:hover {
+        transform: translateY(-4px);
+        box-shadow:
+          0 20px 60px -15px rgba(0, 212, 255, 0.15),
+          0 10px 30px -10px rgba(168, 85, 247, 0.1);
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-delay-1 {
+        transition-delay: 0.1s;
+      }
+      .reveal-delay-2 {
+        transition-delay: 0.2s;
+      }
+      .reveal-delay-3 {
+        transition-delay: 0.3s;
+      }
+      .reveal-delay-4 {
+        transition-delay: 0.4s;
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+      .animate-float {
+        animation: float 5s ease-in-out infinite;
+      }
+      .gradient-text {
+        background: linear-gradient(
+          135deg,
+          #00d4ff 0%,
+          #a855f7 50%,
+          #ec4899 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      @keyframes pulse-glow {
+        0%,
+        100% {
+          box-shadow:
+            0 0 20px rgba(0, 212, 255, 0.2),
+            0 0 60px rgba(168, 85, 247, 0.1);
+        }
+        50% {
+          box-shadow:
+            0 0 30px rgba(0, 212, 255, 0.3),
+            0 0 80px rgba(168, 85, 247, 0.15);
+        }
+      }
+      .pulse-glow {
+        animation: pulse-glow 3s ease-in-out infinite;
+      }
+      @keyframes gradient-shift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      .btn-glow {
+        background: linear-gradient(135deg, #a855f7, #00d4ff, #ec4899, #a855f7);
+        background-size: 300% 300%;
+        animation: gradient-shift 4s ease infinite;
+        transition: all 0.3s;
+      }
+      .btn-glow:hover {
+        box-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
+        transform: translateY(-2px);
+      }
+      .btn-glow:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none !important;
+        box-shadow: none !important;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+      .cursor-blink::after {
+        content: "|";
+        animation: blink 1s infinite;
+        color: #00d4ff;
+      }
+      .nav-link {
+        position: relative;
+        transition: color 0.3s;
+      }
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #00d4ff, #a855f7);
+        transition: width 0.3s;
+      }
+      .nav-link:hover::after {
+        width: 100%;
+      }
+      .nav-link.active {
+        color: white;
+        font-weight: 500;
+      }
+      .nav-link.active::after {
+        width: 100%;
+      }
+      .tag {
+        background: rgba(168, 85, 247, 0.1);
+        border: 1px solid rgba(168, 85, 247, 0.2);
+        color: #c084fc;
+        transition: all 0.3s;
+      }
+      .tag:hover {
+        background: rgba(168, 85, 247, 0.2);
+        border-color: rgba(168, 85, 247, 0.4);
+      }
+      .cursor-glow {
+        position: fixed;
+        width: 400px;
+        height: 400px;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1;
+        background: radial-gradient(
+          circle,
+          rgba(0, 212, 255, 0.06) 0%,
+          transparent 70%
+        );
+        transform: translate(-50%, -50%);
+        transition:
+          left 0.15s ease-out,
+          top 0.15s ease-out;
+      }
+      .stat-value {
+        background: linear-gradient(135deg, #00d4ff, #a855f7);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Section divider */
+      .section-divider {
+        border: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(168, 85, 247, 0.3),
+          rgba(0, 212, 255, 0.3),
+          transparent
+        );
+        margin: 5rem 0;
+      }
+
+      /* Timeline */
+      .timeline-line {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 212, 255, 0.4),
+          rgba(168, 85, 247, 0.4),
+          rgba(236, 72, 153, 0.2),
+          transparent
+        );
+      }
+      .timeline-dot {
+        position: absolute;
+        left: -5px;
+        top: 6px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #0a0a0f;
+        border: 2px solid #a855f7;
+        z-index: 2;
+      }
+      .timeline-dot::after {
+        content: "";
+        position: absolute;
+        inset: 2px;
+        border-radius: 50%;
+        background: #a855f7;
+      }
+
+      /* Project card */
+      .project-img {
+        position: relative;
+        overflow: hidden;
+      }
+      .project-img::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          transparent 40%,
+          rgba(10, 10, 15, 0.9) 100%
+        );
+      }
+      .project-img .dot-pattern {
+        position: absolute;
+        inset: 0;
+        opacity: 0.15;
+        background-image: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.3) 1px,
+          transparent 1px
+        );
+        background-size: 16px 16px;
+      }
+      .project-num {
+        font-size: 5rem;
+        font-weight: 800;
+        line-height: 1;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.04),
+          transparent
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: absolute;
+        top: 10px;
+        right: 16px;
+        z-index: 2;
+      }
+
+      /* Blog card accent */
+      .blog-accent {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        border-radius: 3px 0 0 3px;
+        background: linear-gradient(180deg, #00d4ff, #a855f7);
+        opacity: 0;
+        transition: opacity 0.4s;
+      }
+      .glow-border:hover .blog-accent {
+        opacity: 1;
+      }
+      .reading-time {
+        background: rgba(0, 212, 255, 0.08);
+        border: 1px solid rgba(0, 212, 255, 0.15);
+        color: #67e8f9;
+      }
+
+      /* Form inputs */
+      .input-futuristic {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 0.75rem;
+        color: white;
+        font-size: 0.875rem;
+        transition: all 0.3s;
+      }
+      .input-futuristic::placeholder {
+        color: rgba(255, 255, 255, 0.2);
+      }
+      .input-futuristic:focus {
+        outline: none;
+        border-color: rgba(0, 212, 255, 0.4);
+        box-shadow:
+          0 0 0 4px rgba(0, 212, 255, 0.08),
+          0 0 20px rgba(0, 212, 255, 0.06);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      /* Toast */
+      .toast {
+        position: fixed;
+        right: 1rem;
+        bottom: 1rem;
+        padding: 0.875rem 1.25rem;
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        z-index: 100;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        transition: opacity 0.4s;
+      }
+      .toast-success {
+        background: rgba(34, 211, 238, 0.1);
+        border: 1px solid rgba(34, 211, 238, 0.2);
+        color: #67e8f9;
+      }
+      .toast-error {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        color: #fca5a5;
+      }
+      .spinner {
+        width: 18px;
+        height: 18px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.9s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .visually-hidden {
+        position: absolute !important;
+        height: 1px;
+        width: 1px;
+        overflow: hidden;
+        clip: rect(1px, 1px, 1px, 1px);
+        white-space: nowrap;
+      }
+
+      .contact-method {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 0.75rem;
+        padding: 1rem;
+        text-align: center;
+        transition: all 0.3s;
+      }
+      .contact-method:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(0, 212, 255, 0.2);
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+  <body class="text-gray-300 overflow-x-hidden">
+    <div class="mesh-bg"></div>
+    <div class="grid-overlay"></div>
+    <div id="cursorGlow" class="cursor-glow hidden md:block"></div>
+
+    <!-- Header -->
+    <header class="glass-strong sticky top-0 z-50 border-b border-white/5">
+      <div
+        class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between relative z-10"
+      >
+        <a href="#home" class="flex items-center gap-3 group">
+          <div
+            class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-cyan-400 flex items-center justify-center text-white font-bold text-sm pulse-glow"
+          >
+            SU
+          </div>
+          <span
+            class="text-lg font-semibold text-white group-hover:text-cyan-400 transition-colors"
+            >Sudharshan</span
+          >
+        </a>
+        <nav class="hidden md:flex items-center gap-8 text-sm">
+          <a href="#home" class="nav-link text-gray-400 hover:text-white"
+            >Home</a
+          >
+          <a href="#about" class="nav-link text-gray-400 hover:text-white"
+            >About</a
+          >
+          <a href="#projects" class="nav-link text-gray-400 hover:text-white"
+            >Projects</a
+          >
+          <a href="#blog" class="nav-link text-gray-400 hover:text-white"
+            >Blog</a
+          >
+          <a
+            href="#contact"
+            class="btn-glow px-4 py-2 rounded-lg text-white font-medium text-sm"
+            >Contact</a
+          >
+        </nav>
+        <button
+          id="menuBtn"
+          class="md:hidden p-2 rounded-lg hover:bg-white/5 text-gray-400"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+      </div>
+      <div id="mobileNav" class="md:hidden hidden border-t border-white/5">
+        <div class="px-6 py-4 flex flex-col gap-3">
+          <a href="#home" class="text-gray-400 hover:text-white">Home</a>
+          <a href="#about" class="text-gray-400 hover:text-white">About</a>
+          <a href="#projects" class="text-gray-400 hover:text-white"
+            >Projects</a
+          >
+          <a href="#blog" class="text-gray-400 hover:text-white">Blog</a>
+          <a href="#contact" class="text-cyan-400 font-medium">Contact</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="relative z-10">
+      <!-- ============ HOME ============ -->
+      <section id="home" class="max-w-6xl mx-auto px-6 py-20 scroll-mt-20">
+        <div class="grid md:grid-cols-2 gap-12 items-center min-h-[70vh]">
+          <div class="reveal">
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs text-cyan-400 font-mono mb-6"
+            >
+              <span
+                class="w-2 h-2 rounded-full bg-green-400 animate-pulse"
+              ></span>
+              Available for work
+            </div>
+            <h1
+              class="text-5xl md:text-6xl font-extrabold leading-[1.1] mb-6 text-white"
+            >
+              Hi, I'm <span class="gradient-text">Sudharshan</span>
+              <br />
+              <span class="text-gray-500 text-3xl md:text-4xl font-medium"
+                >Building the future with code</span
+              >
+            </h1>
+            <p class="text-lg text-gray-400 mb-8 leading-relaxed max-w-lg">
+              Software developer with 2+ years of experience crafting web and
+              mobile applications, exploring cutting-edge technologies,
+              leveraging AI effectively, and solving real-world problems with
+              clean, efficient code.
+            </p>
+            <div class="flex flex-wrap gap-4">
+              <a
+                href="#projects"
+                class="btn-glow px-6 py-3 rounded-xl text-white font-semibold inline-flex items-center gap-2"
+              >
+                View Projects
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </a>
+              <a
+                href="#contact"
+                class="px-6 py-3 rounded-xl border border-white/10 text-gray-300 hover:text-white hover:border-white/30 transition-all font-medium"
+              >
+                Get in touch
+              </a>
+            </div>
+          </div>
+
+          <div class="relative reveal reveal-delay-2">
+            <div
+              class="absolute -right-8 -top-8 w-64 h-64 bg-gradient-to-tr from-purple-600/20 to-cyan-500/20 rounded-full blur-3xl animate-float"
+            ></div>
+            <div
+              class="absolute -left-12 bottom-0 w-48 h-48 bg-gradient-to-br from-pink-500/15 to-purple-600/15 rounded-full blur-3xl animate-float"
+              style="animation-delay: -2s"
+            ></div>
+
+            <div class="glass-strong rounded-2xl p-6 relative z-10 glow-border">
+              <div class="flex items-center gap-4 mb-5">
+                <img
+                  src="assets/avatar.png"
+                  alt="avatar"
+                  class="w-52 rounded-xl shadow-lg shadow-purple-500/20 animate-float"
+                />
+                <div>
+                  <h4 class="font-semibold text-white">Sudharshan</h4>
+                  <p class="text-sm text-gray-500 font-mono">
+                    Software Developer
+                  </p>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="glass rounded-xl p-3">
+                  <div class="text-xs text-gray-500 font-mono mb-1">
+                    Experience
+                  </div>
+                  <div class="stat-value font-bold text-lg">2+ yrs</div>
+                </div>
+                <div class="glass rounded-xl p-3">
+                  <div class="text-xs text-gray-500 font-mono mb-1">Stack</div>
+                  <div class="stat-value font-bold text-lg">Full-Stack</div>
+                </div>
+              </div>
+              <div class="flex gap-2 flex-wrap">
+                <span class="tag text-xs px-3 py-1 rounded-full">React</span>
+                <span class="tag text-xs px-3 py-1 rounded-full">Next.js</span>
+                <span class="tag text-xs px-3 py-1 rounded-full"
+                  >React Native</span
+                >
+                <span class="tag text-xs px-3 py-1 rounded-full"
+                  >TypeScript</span
+                >
+                <span class="tag text-xs px-3 py-1 rounded-full">Tailwind</span>
+                <span class="tag text-xs px-3 py-1 rounded-full">AI Tools</span>
+                <span class="tag text-xs px-3 py-1 rounded-full"
+                  >Material UI</span
+                >
+                <span class="tag text-xs px-3 py-1 rounded-full"
+                  >shadcn/ui</span
+                >
+                <span class="tag text-xs px-3 py-1 rounded-full"
+                  >Bootstrap</span
+                >
+                <span class="tag text-xs px-3 py-1 rounded-full">Redux</span>
+                <span class="tag text-xs px-3 py-1 rounded-full"
+                  >RTK Query</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats bar -->
+        <div class="reveal mt-16">
+          <div
+            class="glass rounded-2xl p-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center"
+          >
+            <div>
+              <div class="stat-value text-3xl font-bold mb-1">2+</div>
+              <div class="text-sm text-gray-500 font-mono">
+                Years Experience
+              </div>
+            </div>
+            <div>
+              <div class="stat-value text-3xl font-bold mb-1">4+</div>
+              <div class="text-sm text-gray-500 font-mono">Projects Built</div>
+            </div>
+            <div>
+              <div class="stat-value text-3xl font-bold mb-1">10+</div>
+              <div class="text-sm text-gray-500 font-mono">Technologies</div>
+            </div>
+            <div>
+              <div class="stat-value text-3xl font-bold mb-1">100%</div>
+              <div class="text-sm text-gray-500 font-mono">Passion</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-divider max-w-6xl mx-auto" />
+
+      <!-- ============ ABOUT ============ -->
+      <section id="about" class="max-w-5xl mx-auto px-6 py-20 scroll-mt-20">
+        <div class="mb-12 reveal">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs text-cyan-400 font-mono mb-6"
+          >
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            About Me
+          </div>
+          <h2
+            class="text-4xl md:text-5xl font-extrabold leading-[1.1] mb-6 text-white"
+          >
+            Building the future<br /><span class="gradient-text"
+              >through code &amp; creativity</span
+            >
+          </h2>
+          <p class="text-xl text-gray-400 max-w-3xl leading-relaxed">
+            I'm a software developer with 2+ years of experience building web
+            applications, learning new technologies, and solving real-world
+            problems.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 items-start">
+          <div class="md:col-span-2 space-y-16">
+            <!-- Experience -->
+            <div class="reveal">
+              <div class="flex items-center gap-3 mb-8">
+                <div
+                  class="w-1 h-8 bg-gradient-to-b from-cyan-400 to-purple-500 rounded-full"
+                ></div>
+                <h3 class="text-2xl font-bold text-white">Experience</h3>
+              </div>
+              <div class="relative pl-8">
+                <div class="timeline-line"></div>
+                <div class="relative mb-10 reveal reveal-delay-1">
+                  <div class="timeline-dot"></div>
+                  <div class="glass rounded-xl p-5 glow-border">
+                    <div
+                      class="flex items-start justify-between mb-3 flex-wrap gap-2"
+                    >
+                      <div>
+                        <h4 class="font-semibold text-lg text-white">
+                          Software Developer
+                        </h4>
+                        <p class="text-cyan-400 font-mono text-sm">ITTrident</p>
+                      </div>
+                      <span
+                        class="text-xs px-3 py-1 rounded-full glass text-purple-300 font-mono"
+                        >Feb 2024 &ndash; Present</span
+                      >
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                      Developing web applications using modern technologies.
+                      Collaborating with teams to implement features and
+                      optimize performance.
+                    </p>
+                    <div class="flex gap-2 mt-4 flex-wrap">
+                      <span class="tag text-xs px-3 py-1 rounded-full"
+                        >React</span
+                      >
+                      <span class="tag text-xs px-3 py-1 rounded-full"
+                        >Next.js</span
+                      >
+                      <span class="tag text-xs px-3 py-1 rounded-full"
+                        >React Native</span
+                      >
+                      <span class="tag text-xs px-3 py-1 rounded-full"
+                        >TypeScript</span
+                      >
+                      <span class="tag text-xs px-3 py-1 rounded-full"
+                        >Redux</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="relative mb-10 reveal reveal-delay-2">
+                  <div class="timeline-dot" style="border-color: #00d4ff"></div>
+                  <div class="glass rounded-xl p-5 glow-border">
+                    <div
+                      class="flex items-start justify-between mb-3 flex-wrap gap-2"
+                    >
+                      <div>
+                        <h4 class="font-semibold text-lg text-white">
+                          M365 Developer
+                        </h4>
+                        <p class="text-cyan-400 font-mono text-sm">ITTrident</p>
+                      </div>
+                      <span
+                        class="text-xs px-3 py-1 rounded-full glass text-purple-300 font-mono"
+                        >3 Months</span
+                      >
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                      Started my career as a Microsoft 365 Developer, working
+                      with SharePoint, Power Automate, and the M365 ecosystem to
+                      build business solutions.
+                    </p>
+                    <div class="flex gap-2 mt-4 flex-wrap">
+                      <span class="tag text-xs px-3 py-1 rounded-full"
+                        >Microsoft 365</span
+                      >
+                      <span class="tag text-xs px-3 py-1 rounded-full"
+                        >SharePoint</span
+                      >
+                      <span class="tag text-xs px-3 py-1 rounded-full"
+                        >Power Automate</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Education -->
+            <div class="reveal">
+              <div class="flex items-center gap-3 mb-8">
+                <div
+                  class="w-1 h-8 bg-gradient-to-b from-cyan-400 to-purple-500 rounded-full"
+                ></div>
+                <h3 class="text-2xl font-bold text-white">Education</h3>
+              </div>
+              <div class="glass rounded-xl p-6 glow-border">
+                <div class="flex items-center gap-3 mb-3">
+                  <div
+                    class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600/30 to-cyan-500/30 flex items-center justify-center text-lg"
+                  >
+                    🎓
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-white">
+                      Bachelor's in Electronics and Communication Engineering
+                      (ECE)
+                    </h4>
+                    <p class="text-gray-500 text-sm font-mono">
+                      Graduated 2023
+                    </p>
+                  </div>
+                </div>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                  Studied electronics, communication systems, embedded systems,
+                  and signal processing, while developing a strong passion for
+                  software development.
+                </p>
+              </div>
+              <div class="glass rounded-xl p-6 glow-border mt-4">
+                <div class="flex items-center gap-3 mb-3">
+                  <div
+                    class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-600/30 to-purple-500/30 flex items-center justify-center text-lg"
+                  >
+                    💻
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-white">
+                      Software Development Engineering
+                    </h4>
+                    <p class="text-gray-500 text-sm font-mono">
+                      Masai School &middot; 6 Months
+                    </p>
+                  </div>
+                </div>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                  Intensive full-time program focused on software development,
+                  data structures, algorithms, and building production-ready web
+                  applications.
+                </p>
+              </div>
+            </div>
+
+            <!-- Beyond Code -->
+            <div class="reveal">
+              <div class="flex items-center gap-3 mb-8">
+                <div
+                  class="w-1 h-8 bg-gradient-to-b from-cyan-400 to-purple-500 rounded-full"
+                ></div>
+                <h3 class="text-2xl font-bold text-white">Beyond Code</h3>
+              </div>
+              <div class="glass rounded-xl p-6">
+                <p class="text-gray-400 leading-relaxed mb-4">
+                  I'm passionate about learning new technologies, writing clean
+                  code, and building projects that make a difference. In my
+                  spare time, I explore new frameworks, contribute to open
+                  source, and work on personal projects.
+                </p>
+                <p class="text-gray-400 leading-relaxed">
+                  I'm always eager to learn and collaborate with other
+                  developers. If you'd like to discuss web development, tech, or
+                  opportunities, I'd love to hear from you!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <aside class="space-y-6">
+            <div
+              class="glass-strong rounded-2xl p-6 sticky top-24 glow-border reveal"
+            >
+              <div class="flex flex-col items-center text-center mb-6">
+                <img
+                  src="assets/avatar.png"
+                  alt="Sudharshan avatar"
+                  class="w-28 rounded-xl shadow-lg shadow-purple-500/20 mb-4 animate-float"
+                />
+                <h4 class="font-semibold text-lg text-white mb-1">
+                  Sudharshan
+                </h4>
+                <p class="text-sm text-gray-500 font-mono mb-4">
+                  Software Developer
+                </p>
+                <a
+                  href="#contact"
+                  class="w-full btn-glow px-4 py-2.5 rounded-lg text-white text-sm font-medium text-center block transition-all"
+                  >Get in Touch</a
+                >
+              </div>
+
+              <div class="space-y-4">
+                <h5 class="font-semibold text-white text-sm mb-3">Skills</h5>
+                <div>
+                  <p class="text-xs text-gray-500 font-mono mb-2">Frontend</p>
+                  <div class="flex flex-wrap gap-2">
+                    <span class="tag text-xs px-3 py-1 rounded-full">HTML</span>
+                    <span class="tag text-xs px-3 py-1 rounded-full">CSS</span>
+                    <span class="tag text-xs px-3 py-1 rounded-full"
+                      >JavaScript</span
+                    >
+                    <span class="tag text-xs px-3 py-1 rounded-full"
+                      >TypeScript</span
+                    >
+                    <span
+                      class="text-xs px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-300"
+                      >React</span
+                    >
+                    <span
+                      class="text-xs px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-300"
+                      >Next.js</span
+                    >
+                    <span
+                      class="text-xs px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-300"
+                      >React Native</span
+                    >
+                    <span
+                      class="text-xs px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-300"
+                      >Tailwind CSS</span
+                    >
+                  </div>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-500 font-mono mb-2">
+                    State Management
+                  </p>
+                  <div class="flex flex-wrap gap-2">
+                    <span
+                      class="text-xs px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-300"
+                      >Redux</span
+                    >
+                    <span
+                      class="text-xs px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-300"
+                      >RTK Query</span
+                    >
+                  </div>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-500 font-mono mb-2">APIs</p>
+                  <div class="flex flex-wrap gap-2">
+                    <span
+                      class="text-xs px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-300"
+                      >REST APIs</span
+                    >
+                  </div>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-500 font-mono mb-2">
+                    Version Control
+                  </p>
+                  <div class="flex flex-wrap gap-2">
+                    <span
+                      class="text-xs px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-300"
+                      >Git</span
+                    >
+                    <span
+                      class="text-xs px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-300"
+                      >GitHub</span
+                    >
+                  </div>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-500 font-mono mb-2">Tools</p>
+                  <div class="flex flex-wrap gap-2">
+                    <span
+                      class="text-xs px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-300"
+                      >VS Code</span
+                    >
+                    <span
+                      class="text-xs px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-300"
+                      >Postman</span
+                    >
+                    <span
+                      class="text-xs px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-300"
+                      >AI Tools</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <hr class="section-divider max-w-6xl mx-auto" />
+
+      <!-- ============ PROJECTS ============ -->
+      <section id="projects" class="max-w-6xl mx-auto px-6 py-20 scroll-mt-20">
+        <div class="mb-16 reveal">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs text-cyan-400 font-mono mb-6"
+          >
+            <span
+              class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"
+            ></span>
+            Portfolio
+          </div>
+          <h2
+            class="text-4xl md:text-5xl font-extrabold leading-[1.1] mb-6 text-white"
+          >
+            My <span class="gradient-text">Projects</span>
+          </h2>
+          <p class="text-xl text-gray-400 max-w-2xl leading-relaxed">
+            A selection of projects I've built using React, JavaScript, and
+            Node.js.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <article
+            class="glass rounded-2xl overflow-hidden glow-border reveal reveal-delay-1"
+          >
+            <div
+              class="project-img h-52 bg-gradient-to-br from-indigo-600/50 to-pink-500/50"
+            >
+              <div class="dot-pattern"></div>
+              <span class="project-num">01</span>
+            </div>
+            <div class="p-7">
+              <h3 class="text-xl font-semibold text-white mb-3">
+                E-Commerce Platform
+              </h3>
+              <p class="text-gray-400 text-sm mb-5 leading-relaxed">
+                Built a full-stack e-commerce application with user
+                authentication, product catalog, shopping cart, and payment
+                integration using React and Node.js.
+              </p>
+              <div class="flex flex-wrap gap-2 mb-5">
+                <span class="tag text-xs px-3 py-1 rounded-full">React</span>
+                <span class="tag text-xs px-3 py-1 rounded-full">Node.js</span>
+                <span class="tag text-xs px-3 py-1 rounded-full">MongoDB</span>
+              </div>
+              <a
+                href="#"
+                class="text-cyan-400 font-mono text-sm inline-flex items-center gap-1 hover:gap-2 transition-all"
+              >
+                View Project <span>&rarr;</span>
+              </a>
+            </div>
+          </article>
+
+          <article
+            class="glass rounded-2xl overflow-hidden glow-border reveal reveal-delay-2"
+          >
+            <div
+              class="project-img h-52 bg-gradient-to-br from-green-500/50 to-blue-600/50"
+            >
+              <div class="dot-pattern"></div>
+              <span class="project-num">02</span>
+            </div>
+            <div class="p-7">
+              <h3 class="text-xl font-semibold text-white mb-3">EfficiTrack</h3>
+              <p class="text-gray-400 text-sm mb-5 leading-relaxed">
+                A task management application built with Next.js, designed for
+                organizations to streamline workflow, track progress, and boost
+                team productivity. Currently available for organizational use.
+              </p>
+              <div class="flex flex-wrap gap-2 mb-5">
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-300"
+                  >Next.js</span
+                >
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-300"
+                  >Redux</span
+                >
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-300"
+                  >Material UI</span
+                >
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-300"
+                  >shadcn/ui</span
+                >
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-300"
+                  >Tailwind</span
+                >
+              </div>
+              <span
+                class="text-xs px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-300 font-mono"
+                >Live for Organizations</span
+              >
+            </div>
+          </article>
+
+          <article
+            class="glass rounded-2xl overflow-hidden glow-border reveal reveal-delay-3"
+          >
+            <div
+              class="project-img h-52 bg-gradient-to-br from-purple-500/50 to-pink-600/50"
+            >
+              <div class="dot-pattern"></div>
+              <span class="project-num">03</span>
+            </div>
+            <div class="p-7">
+              <h3 class="text-xl font-semibold text-white mb-3">
+                SCC Admin Portal
+              </h3>
+              <p class="text-gray-400 text-sm mb-5 leading-relaxed">
+                An administrative application built for SCC, a chess tutoring
+                organization, to manage and track attendance of students and
+                teachers, streamline scheduling, and organize day-to-day
+                operations.
+              </p>
+              <div class="flex flex-wrap gap-2 mb-5">
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-300"
+                  >React</span
+                >
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-300"
+                  >Node.js</span
+                >
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-300"
+                  >Admin Dashboard</span
+                >
+              </div>
+              <span
+                class="text-xs px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-300 font-mono"
+                >In Production</span
+              >
+            </div>
+          </article>
+
+          <article
+            class="glass rounded-2xl overflow-hidden glow-border reveal reveal-delay-4"
+          >
+            <div
+              class="project-img h-52 bg-gradient-to-br from-cyan-500/50 to-blue-600/50"
+            >
+              <div class="dot-pattern"></div>
+              <span class="project-num">04</span>
+            </div>
+            <div class="p-7">
+              <h3 class="text-xl font-semibold text-white mb-3">
+                React Native Mobile App
+              </h3>
+              <p class="text-gray-400 text-sm mb-5 leading-relaxed">
+                A production-ready React Native application currently live on
+                app stores. Built with a focus on performance, smooth
+                animations, and a seamless cross-platform user experience.
+              </p>
+              <div class="flex flex-wrap gap-2 mb-5">
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300"
+                  >React Native</span
+                >
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300"
+                  >JavaScript</span
+                >
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300"
+                  >Mobile</span
+                >
+              </div>
+              <span
+                class="text-xs px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-300 font-mono"
+                >Live on App Store</span
+              >
+            </div>
+          </article>
+
+          <article
+            class="glass rounded-2xl overflow-hidden glow-border reveal reveal-delay-4"
+          >
+            <div
+              class="project-img h-52 bg-gradient-to-br from-yellow-500/50 to-red-500/50"
+            >
+              <div class="dot-pattern"></div>
+              <span class="project-num">05</span>
+            </div>
+            <div class="p-7">
+              <h3 class="text-xl font-semibold text-white mb-3">
+                Blog Platform
+              </h3>
+              <p class="text-gray-400 text-sm mb-5 leading-relaxed">
+                A modern blogging platform with markdown support, user
+                authentication, comments system, and SEO optimization. Built
+                with Node.js and React.
+              </p>
+              <div class="flex flex-wrap gap-2 mb-5">
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-300"
+                  >Node.js</span
+                >
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-300"
+                  >React</span
+                >
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-300"
+                  >PostgreSQL</span
+                >
+              </div>
+              <a
+                href="#"
+                class="text-cyan-400 font-mono text-sm inline-flex items-center gap-1 hover:gap-2 transition-all"
+              >
+                View Project <span>&rarr;</span>
+              </a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <hr class="section-divider max-w-6xl mx-auto" />
+
+      <!-- ============ BLOG ============ -->
+      <section id="blog" class="max-w-4xl mx-auto px-6 py-20 scroll-mt-20">
+        <div class="mb-16 reveal">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs text-cyan-400 font-mono mb-6"
+          >
+            <span
+              class="w-2 h-2 rounded-full bg-green-400 animate-pulse"
+            ></span>
+            Blog
+          </div>
+          <h2
+            class="text-4xl md:text-5xl font-extrabold leading-[1.1] mb-6 text-white"
+          >
+            Thoughts &amp; <span class="gradient-text">Insights</span>
+          </h2>
+          <p class="text-xl text-gray-400 max-w-2xl leading-relaxed">
+            Thoughts on web development, JavaScript, and building better
+            applications.
+          </p>
+        </div>
+
+        <div class="space-y-6">
+          <article
+            class="glass rounded-2xl p-8 glow-border relative overflow-hidden reveal reveal-delay-1"
+          >
+            <div class="blog-accent"></div>
+            <div class="flex items-start justify-between mb-4 flex-wrap gap-3">
+              <div>
+                <h3 class="text-xl font-semibold text-white mb-2">
+                  Is AI-Generated Frontend Code More Accessible Than Human Code?
+                </h3>
+                <div class="flex items-center gap-3 text-sm">
+                  <span class="text-gray-500 font-mono">May 5, 2025</span>
+                  <span class="tag text-xs px-2.5 py-0.5 rounded-full">AI</span>
+                  <span class="reading-time text-xs px-2.5 py-0.5 rounded-full"
+                    >5 min read</span
+                  >
+                </div>
+              </div>
+            </div>
+            <p class="text-gray-400 text-sm leading-relaxed mb-5">
+              With the rise of AI tools like GitHub Copilot and ChatGPT, more
+              developers are turning to artificial intelligence to write
+              frontend code. But is the generated code actually more accessible
+              than what humans write?
+            </p>
+            <a
+              href="https://medium.com/@sudharshanshan645/is-ai-generated-frontend-code-more-accessible-than-human-code-d3abe7907895"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-cyan-400 font-mono text-sm inline-flex items-center gap-1 hover:gap-2 transition-all"
+            >
+              Read article <span>&rarr;</span>
+            </a>
+          </article>
+
+          <article
+            class="glass rounded-2xl p-8 glow-border relative overflow-hidden reveal reveal-delay-2"
+          >
+            <div class="blog-accent"></div>
+            <div class="flex items-start justify-between mb-4 flex-wrap gap-3">
+              <div>
+                <h3 class="text-xl font-semibold text-white mb-2">
+                  Server-Side Rendering vs Static Generation in Next.js
+                </h3>
+                <div class="flex items-center gap-3 text-sm">
+                  <span class="text-gray-500 font-mono">May 4, 2025</span>
+                  <span
+                    class="text-xs px-2.5 py-0.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-300"
+                    >Next.js</span
+                  >
+                  <span class="reading-time text-xs px-2.5 py-0.5 rounded-full"
+                    >6 min read</span
+                  >
+                </div>
+              </div>
+            </div>
+            <p class="text-gray-400 text-sm leading-relaxed mb-5">
+              When working with Next.js, one of the key decisions you'll face is
+              how to render your pages. Next.js provides multiple rendering
+              strategies — let's explore SSR vs SSG and when to use each.
+            </p>
+            <a
+              href="https://medium.com/@sudharshanshan645/server-side-rendering-vs-static-generation-in-next-js-7db9e5fbc791"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-cyan-400 font-mono text-sm inline-flex items-center gap-1 hover:gap-2 transition-all"
+            >
+              Read article <span>&rarr;</span>
+            </a>
+          </article>
+
+          <article
+            class="glass rounded-2xl p-8 glow-border relative overflow-hidden reveal reveal-delay-3"
+          >
+            <div class="blog-accent"></div>
+            <div class="flex items-start justify-between mb-4 flex-wrap gap-3">
+              <div>
+                <h3 class="text-xl font-semibold text-white mb-2">
+                  Dark Mode Toggle in Next.js with Tailwind CSS
+                </h3>
+                <div class="flex items-center gap-3 text-sm">
+                  <span class="text-gray-500 font-mono">May 3, 2025</span>
+                  <span
+                    class="text-xs px-2.5 py-0.5 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-300"
+                    >Frontend</span
+                  >
+                  <span class="reading-time text-xs px-2.5 py-0.5 rounded-full"
+                    >5 min read</span
+                  >
+                </div>
+              </div>
+            </div>
+            <p class="text-gray-400 text-sm leading-relaxed mb-5">
+              Dark mode is no longer a nice-to-have — it's a user expectation.
+              In this blog, we'll build a dark mode toggle in a Next.js
+              application using Tailwind CSS.
+            </p>
+            <a
+              href="https://medium.com/@sudharshanshan645/dark-mode-toggle-in-next-js-with-tailwind-css-d280cf3b9073"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-cyan-400 font-mono text-sm inline-flex items-center gap-1 hover:gap-2 transition-all"
+            >
+              Read article <span>&rarr;</span>
+            </a>
+          </article>
+
+          <article
+            class="glass rounded-2xl p-8 glow-border relative overflow-hidden reveal reveal-delay-4"
+          >
+            <div class="blog-accent"></div>
+            <div class="flex items-start justify-between mb-4 flex-wrap gap-3">
+              <div>
+                <h3 class="text-xl font-semibold text-white mb-2">
+                  10 Next.js Tips I Learned the Hard Way (As a Beginner
+                  Developer)
+                </h3>
+                <div class="flex items-center gap-3 text-sm">
+                  <span class="text-gray-500 font-mono">May 3, 2025</span>
+                  <span
+                    class="text-xs px-2.5 py-0.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-300"
+                    >Next.js</span
+                  >
+                  <span class="reading-time text-xs px-2.5 py-0.5 rounded-full"
+                    >7 min read</span
+                  >
+                </div>
+              </div>
+            </div>
+            <p class="text-gray-400 text-sm leading-relaxed mb-5">
+              When I first started learning Next.js, I was excited by its
+              promise: better performance, built-in routing, server-side
+              rendering — all the good stuff. Here are 10 tips I wish I knew
+              from day one.
+            </p>
+            <a
+              href="https://medium.com/@sudharshanshan645/10-next-js-tips-i-learned-the-hard-way-as-a-beginner-developer-9b7affaf9996"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-cyan-400 font-mono text-sm inline-flex items-center gap-1 hover:gap-2 transition-all"
+            >
+              Read article <span>&rarr;</span>
+            </a>
+          </article>
+        </div>
+      </section>
+
+      <hr class="section-divider max-w-6xl mx-auto" />
+
+      <!-- ============ CONTACT ============ -->
+      <section id="contact" class="max-w-6xl mx-auto px-6 py-20 scroll-mt-20">
+        <div class="mb-12 reveal">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs text-cyan-400 font-mono mb-6"
+          >
+            <span
+              class="w-2 h-2 rounded-full bg-green-400 animate-pulse"
+            ></span>
+            Let's Connect
+          </div>
+          <h2
+            class="text-4xl md:text-5xl font-extrabold leading-[1.1] mb-6 text-white"
+          >
+            Get in <span class="gradient-text">Touch</span>
+          </h2>
+          <p class="text-xl text-gray-400 leading-relaxed">
+            Have a project or a question? Send a message using the form below or
+            email me directly.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="md:col-span-2 reveal reveal-delay-1">
+            <div class="glass-strong rounded-2xl p-7 glow-border">
+              <form
+                id="contactForm"
+                action="https://api.web3forms.com/submit"
+                method="POST"
+                class="space-y-5"
+                novalidate
+              >
+                <input
+                  type="hidden"
+                  name="access_key"
+                  value="bb2ba107-a8c0-445b-9bab-dcd2daf63367"
+                />
+                <input
+                  type="hidden"
+                  name="to"
+                  value="sudharshanshan645@gmail.com"
+                />
+                <input
+                  type="text"
+                  name="botcheck"
+                  class="visually-hidden"
+                  tabindex="-1"
+                  autocomplete="nope"
+                />
+
+                <div>
+                  <label
+                    for="name"
+                    class="block text-sm font-medium text-gray-400 mb-2 font-mono"
+                    >Name</label
+                  >
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    required
+                    class="input-futuristic"
+                    placeholder="Your full name"
+                    autocomplete="name"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-400 mb-2 font-mono"
+                    >Email</label
+                  >
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    class="input-futuristic"
+                    placeholder="you@example.com"
+                    autocomplete="email"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    for="subject"
+                    class="block text-sm font-medium text-gray-400 mb-2 font-mono"
+                    >Subject</label
+                  >
+                  <input
+                    id="subject"
+                    name="subject"
+                    type="text"
+                    class="input-futuristic"
+                    placeholder="Brief subject (optional)"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    for="message"
+                    class="block text-sm font-medium text-gray-400 mb-2 font-mono"
+                    >Message</label
+                  >
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="6"
+                    required
+                    class="input-futuristic resize-none"
+                    placeholder="Tell me about your project or question"
+                  ></textarea>
+                  <div
+                    id="charCount"
+                    class="text-xs text-gray-600 mt-2 font-mono"
+                  >
+                    0 / 2000
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                  <button
+                    id="submitBtn"
+                    type="submit"
+                    class="btn-glow px-6 py-3 rounded-xl text-white font-semibold inline-flex items-center gap-3"
+                    aria-live="polite"
+                  >
+                    <span id="btnText">Send message</span>
+                    <span
+                      id="btnSpinner"
+                      class="spinner"
+                      style="display: none"
+                    ></span>
+                  </button>
+                  <div
+                    id="formStatus"
+                    role="status"
+                    aria-live="polite"
+                    class="text-sm text-gray-500"
+                  ></div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <aside class="reveal reveal-delay-2 space-y-4">
+            <div class="glass-strong rounded-2xl p-6 glow-border">
+              <div class="flex flex-col items-center text-center">
+                <img
+                  src="assets/avatar.png"
+                  alt="Sudharshan avatar"
+                  class="w-24 rounded-xl shadow-lg shadow-purple-500/20 mb-4 animate-float"
+                />
+                <h4 class="font-semibold text-white mb-1">Sudharshan</h4>
+                <p class="text-sm text-gray-500 font-mono mb-4">
+                  Software Developer
+                </p>
+              </div>
+            </div>
+
+            <div class="contact-method">
+              <div class="text-xs text-gray-500 font-mono mb-1">Email</div>
+              <a
+                href="mailto:sudharshanshan645@gmail.com"
+                class="text-cyan-400 text-sm hover:text-cyan-300 transition-colors break-all"
+                >sudharshanshan645@gmail.com</a
+              >
+            </div>
+
+            <div class="contact-method">
+              <div class="text-xs text-gray-500 font-mono mb-1">Social</div>
+              <div class="flex justify-center gap-4 mt-1">
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-purple-400 transition-colors text-sm"
+                  >GitHub</a
+                >
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-cyan-400 transition-colors text-sm"
+                  >LinkedIn</a
+                >
+              </div>
+            </div>
+
+            <div class="contact-method">
+              <div class="text-xs text-gray-500 font-mono mb-1">
+                Response Time
+              </div>
+              <p class="text-sm text-gray-300">Usually within 24h</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 mt-20 relative z-10">
+      <div
+        class="max-w-6xl mx-auto px-6 py-8 text-sm text-gray-500 flex flex-col md:flex-row items-center justify-between gap-4"
+      >
+        <span class="font-mono">&copy; 2026 Sudharshan</span>
+        <div class="flex gap-6">
+          <a href="#" class="hover:text-cyan-400 transition-colors">GitHub</a>
+          <a href="#" class="hover:text-cyan-400 transition-colors">LinkedIn</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile menu
+      const menuBtn = document.getElementById("menuBtn");
+      const mobileNav = document.getElementById("mobileNav");
+      if (menuBtn && mobileNav) {
+        menuBtn.addEventListener("click", () =>
+          mobileNav.classList.toggle("hidden"),
+        );
+        // Close mobile nav when a link is clicked
+        mobileNav.querySelectorAll("a").forEach((link) => {
+          link.addEventListener("click", () =>
+            mobileNav.classList.add("hidden"),
+          );
+        });
+      }
+
+      // Cursor glow
+      const glow = document.getElementById("cursorGlow");
+      if (glow) {
+        document.addEventListener("mousemove", (e) => {
+          glow.style.left = e.clientX + "px";
+          glow.style.top = e.clientY + "px";
+        });
+      }
+
+      // Scroll reveal
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) entry.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
+      );
+      document
+        .querySelectorAll(".reveal")
+        .forEach((el) => observer.observe(el));
+
+      // Active nav link highlighting on scroll
+      const sections = document.querySelectorAll("section[id]");
+      const navLinks = document.querySelectorAll("header nav a.nav-link");
+      window.addEventListener("scroll", () => {
+        let current = "";
+        sections.forEach((section) => {
+          const top = section.offsetTop - 100;
+          if (scrollY >= top) current = section.getAttribute("id");
+        });
+        navLinks.forEach((link) => {
+          link.classList.remove("active", "text-white", "font-medium");
+          link.classList.add("text-gray-400");
+          if (link.getAttribute("href") === "#" + current) {
+            link.classList.add("active", "text-white", "font-medium");
+            link.classList.remove("text-gray-400");
+          }
+        });
+      });
+
+      // Contact form
+      const form = document.getElementById("contactForm");
+      const formStatus = document.getElementById("formStatus");
+      const submitBtn = document.getElementById("submitBtn");
+      const btnText = document.getElementById("btnText");
+      const btnSpinner = document.getElementById("btnSpinner");
+      const charCount = document.getElementById("charCount");
+      const messageEl = document.getElementById("message");
+
+      if (messageEl && charCount) {
+        messageEl.addEventListener("input", () => {
+          charCount.textContent = `${messageEl.value.length} / 2000`;
+        });
+      }
+
+      if (form) {
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          if (!form.checkValidity()) {
+            formStatus.textContent =
+              "Please fill all required fields correctly.";
+            return;
+          }
+          submitBtn.disabled = true;
+          btnText.textContent = "Sending...";
+          btnSpinner.style.display = "inline-block";
+          formStatus.textContent = "";
+
+          try {
+            const res = await fetch("https://api.web3forms.com/submit", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              body: JSON.stringify({
+                access_key: form.querySelector('[name="access_key"]').value,
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                subject:
+                  document.getElementById("subject").value ||
+                  "Portfolio Contact",
+                message: document.getElementById("message").value,
+              }),
+            });
+            const data = await res.json();
+            if (data.success) {
+              showToast("Message sent successfully!", false);
+              form.reset();
+              charCount.textContent = "0 / 2000";
+            } else {
+              showToast("Failed to send. Please try again.", true);
+            }
+          } catch (err) {
+            showToast("Network error — please try again later.", true);
+          } finally {
+            submitBtn.disabled = false;
+            btnText.textContent = "Send message";
+            btnSpinner.style.display = "none";
+          }
+        });
+      }
+
+      function showToast(message, isError = false) {
+        const t = document.createElement("div");
+        t.className = `toast ${isError ? "toast-error" : "toast-success"}`;
+        t.textContent = message;
+        document.body.appendChild(t);
+        setTimeout(() => (t.style.opacity = "0"), 4200);
+        setTimeout(() => t.remove(), 4800);
+      }
+    </script>
+  </body>
+</html>
