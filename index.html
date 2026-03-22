@@ -12,6 +12,16 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <!-- Anti-flash theme init -->
+    <script>
+      (function () {
+        var saved = localStorage.getItem("theme");
+        var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (saved === "light" || (!saved && !prefersDark)) {
+          document.documentElement.classList.add("light");
+        }
+      })();
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -486,6 +496,167 @@
         border-color: rgba(0, 212, 255, 0.2);
         transform: translateY(-2px);
       }
+
+      /* ── Theme toggle button ── */
+      #themeToggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 0.5rem;
+        color: #9ca3af;
+        transition: background 0.2s, color 0.2s;
+      }
+      #themeToggle:hover {
+        background: rgba(255, 255, 255, 0.07);
+        color: #ffffff;
+      }
+
+      /* ── Smooth theme transitions ── */
+      body,
+      header,
+      footer,
+      .glass,
+      .glass-strong,
+      .timeline-dot,
+      .input-futuristic,
+      .contact-method,
+      .tag,
+      .reading-time {
+        transition:
+          background-color 0.3s ease,
+          border-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      /* ════════════════════════════
+         LIGHT MODE OVERRIDES
+         ════════════════════════════ */
+      html.light body {
+        background: #f0f2f8;
+        color: #374151;
+      }
+      html.light .mesh-bg {
+        background:
+          radial-gradient(
+            ellipse 80% 60% at 20% 40%,
+            rgba(168, 85, 247, 0.07) 0%,
+            transparent 70%
+          ),
+          radial-gradient(
+            ellipse 60% 80% at 80% 20%,
+            rgba(0, 212, 255, 0.05) 0%,
+            transparent 70%
+          ),
+          radial-gradient(
+            ellipse 50% 50% at 60% 80%,
+            rgba(236, 72, 153, 0.05) 0%,
+            transparent 70%
+          );
+      }
+      html.light .grid-overlay {
+        background-image:
+          linear-gradient(rgba(0, 0, 0, 0.07) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 0, 0, 0.07) 1px, transparent 1px);
+      }
+      html.light .glass {
+        background: rgba(255, 255, 255, 0.55);
+        border-color: rgba(0, 0, 0, 0.07);
+      }
+      html.light .glass-strong {
+        background: rgba(255, 255, 255, 0.82);
+        border-color: rgba(0, 0, 0, 0.09);
+      }
+      /* Text colours */
+      html.light .text-white { color: #111827 !important; }
+      html.light .text-gray-300 { color: #374151 !important; }
+      html.light .text-gray-400 { color: #4b5563 !important; }
+      html.light .text-gray-500 { color: #6b7280 !important; }
+      html.light .hover\:text-white:hover { color: #111827 !important; }
+      html.light .hover\:text-cyan-400:hover { color: #0891b2 !important; }
+      html.light .text-cyan-400 { color: #0891b2 !important; }
+      /* Border colours */
+      html.light .border-white\/5  { border-color: rgba(0, 0, 0, 0.06) !important; }
+      html.light .border-white\/10 { border-color: rgba(0, 0, 0, 0.10) !important; }
+      html.light .border-white\/30 { border-color: rgba(0, 0, 0, 0.22) !important; }
+      html.light .hover\:border-white\/30:hover { border-color: rgba(0, 0, 0, 0.22) !important; }
+      /* Backgrounds */
+      html.light .hover\:bg-white\/5:hover { background: rgba(0, 0, 0, 0.05) !important; }
+      /* Nav active */
+      html.light .nav-link.active { color: #111827 !important; }
+      /* Tag chips */
+      html.light .tag {
+        background: rgba(168, 85, 247, 0.08);
+        border-color: rgba(168, 85, 247, 0.2);
+        color: #7c3aed;
+      }
+      html.light .tag:hover {
+        background: rgba(168, 85, 247, 0.14);
+        border-color: rgba(168, 85, 247, 0.35);
+      }
+      /* Reading-time badge */
+      html.light .reading-time {
+        background: rgba(0, 212, 255, 0.05);
+        border-color: rgba(0, 212, 255, 0.12);
+        color: #0e7490;
+      }
+      /* Timeline dot */
+      html.light .timeline-dot { background: #f0f2f8; }
+      /* Project image overlay */
+      html.light .project-img::after {
+        background: linear-gradient(
+          180deg,
+          transparent 40%,
+          rgba(240, 242, 248, 0.9) 100%
+        );
+      }
+      /* Section divider */
+      html.light .section-divider {
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(168, 85, 247, 0.2),
+          rgba(0, 212, 255, 0.2),
+          transparent
+        );
+      }
+      /* Form inputs */
+      html.light .input-futuristic {
+        background: rgba(255, 255, 255, 0.8);
+        border-color: rgba(0, 0, 0, 0.12);
+        color: #111827;
+      }
+      html.light .input-futuristic::placeholder { color: rgba(0, 0, 0, 0.35); }
+      html.light .input-futuristic:focus {
+        background: rgba(255, 255, 255, 0.95);
+        border-color: rgba(0, 212, 255, 0.5);
+      }
+      /* Contact methods */
+      html.light .contact-method {
+        background: rgba(255, 255, 255, 0.5);
+        border-color: rgba(0, 0, 0, 0.07);
+      }
+      html.light .contact-method:hover {
+        background: rgba(255, 255, 255, 0.85);
+        border-color: rgba(0, 212, 255, 0.25);
+      }
+      /* Cursor glow */
+      html.light .cursor-glow {
+        background: radial-gradient(
+          circle,
+          rgba(168, 85, 247, 0.04) 0%,
+          transparent 70%
+        );
+      }
+      /* Theme toggle colours in light mode */
+      html.light #themeToggle {
+        color: #6b7280;
+      }
+      html.light #themeToggle:hover {
+        background: rgba(0, 0, 0, 0.06);
+        color: #111827;
+      }
     </style>
   </head>
   <body class="text-gray-300 overflow-x-hidden">
@@ -528,6 +699,17 @@
             >Contact</a
           >
         </nav>
+        <!-- Theme toggle -->
+        <button id="themeToggle" aria-label="Toggle light/dark mode">
+          <!-- Sun — visible in dark mode -->
+          <svg id="sunIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <!-- Moon — visible in light mode -->
+          <svg id="moonIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
         <button
           id="menuBtn"
           class="md:hidden p-2 rounded-lg hover:bg-white/5 text-gray-400"
@@ -1002,7 +1184,9 @@
                 <span class="tag text-xs px-3 py-1 rounded-full">MongoDB</span>
               </div>
               <a
-                href="#"
+                href="https://github.com/sudharshan591/E-commerce"
+                target="_blank"
+                rel="noopener noreferrer"
                 class="text-cyan-400 font-mono text-sm inline-flex items-center gap-1 hover:gap-2 transition-all"
               >
                 View Project <span>&rarr;</span>
@@ -1168,6 +1352,61 @@
               </div>
               <a
                 href="#"
+                class="text-cyan-400 font-mono text-sm inline-flex items-center gap-1 hover:gap-2 transition-all"
+              >
+                View Project <span>&rarr;</span>
+              </a>
+            </div>
+          </article>
+
+          <article
+            class="glass rounded-2xl overflow-hidden glow-border reveal reveal-delay-4"
+          >
+            <div
+              class="project-img h-52 bg-gradient-to-br from-orange-500/50 to-teal-600/50"
+            >
+              <div class="dot-pattern"></div>
+              <span class="project-num">06</span>
+            </div>
+            <div class="p-7">
+              <h3 class="text-xl font-semibold text-white mb-3">
+                ITSM Platform
+              </h3>
+              <p class="text-gray-400 text-sm mb-5 leading-relaxed">
+                Enterprise IT Support & Service Desk with ticket management,
+                JWT authentication, Redis caching, and background job
+                processing. Built with Next.js and NestJS.
+              </p>
+              <div class="flex flex-wrap gap-2 mb-5">
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-300"
+                  >Next.js</span
+                >
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-300"
+                  >NestJS</span
+                >
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-300"
+                  >TypeScript</span
+                >
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-300"
+                  >Prisma</span
+                >
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-300"
+                  >SQLite</span
+                >
+                <span
+                  class="text-xs px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-300"
+                  >Redis</span
+                >
+              </div>
+              <a
+                href="https://github.com/sudharshan591/it-support"
+                target="_blank"
+                rel="noopener noreferrer"
                 class="text-cyan-400 font-mono text-sm inline-flex items-center gap-1 hover:gap-2 transition-all"
               >
                 View Project <span>&rarr;</span>
@@ -1531,7 +1770,9 @@
                   >GitHub</a
                 >
                 <a
-                  href="#"
+                  href="https://www.linkedin.com/in/sudharshan-s645/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   class="text-gray-400 hover:text-cyan-400 transition-colors text-sm"
                   >LinkedIn</a
                 >
@@ -1563,7 +1804,7 @@
             class="hover:text-cyan-400 transition-colors"
             >GitHub</a
           >
-          <a href="#" class="hover:text-cyan-400 transition-colors">LinkedIn</a>
+          <a href="https://www.linkedin.com/in/sudharshan-s645/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 transition-colors">LinkedIn</a>
         </div>
       </div>
     </footer>
@@ -1687,6 +1928,47 @@
           }
         });
       }
+
+      // ── Theme toggle ──
+      const themeToggle = document.getElementById("themeToggle");
+      const sunIcon = document.getElementById("sunIcon");
+      const moonIcon = document.getElementById("moonIcon");
+
+      function applyTheme(theme) {
+        if (theme === "light") {
+          document.documentElement.classList.add("light");
+          sunIcon.classList.add("hidden");
+          moonIcon.classList.remove("hidden");
+        } else {
+          document.documentElement.classList.remove("light");
+          sunIcon.classList.remove("hidden");
+          moonIcon.classList.add("hidden");
+        }
+        localStorage.setItem("theme", theme);
+      }
+
+      // Sync icons with the class already set by the anti-flash script
+      (function () {
+        const isLight = document.documentElement.classList.contains("light");
+        if (isLight) {
+          sunIcon.classList.add("hidden");
+          moonIcon.classList.remove("hidden");
+        }
+      })();
+
+      themeToggle.addEventListener("click", () => {
+        const isLight = document.documentElement.classList.contains("light");
+        applyTheme(isLight ? "dark" : "light");
+      });
+
+      // Follow system changes when the user hasn't set a preference
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", (e) => {
+          if (!localStorage.getItem("theme")) {
+            applyTheme(e.matches ? "dark" : "light");
+          }
+        });
 
       function showToast(message, isError = false) {
         const t = document.createElement("div");
